@@ -1,88 +1,41 @@
 <template>
-  <section class="container">
+  <div>
+    <input v-model="input"/>
+    <button v-on:click="send">Send</button>
     <div>
-      <logo />
-      <h1 class="title">
-        nexpress
-      </h1>
-      <h2 class="subtitle">
-        My superb Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >GitHub</a>
-      </div>
-      <button v-on:click="send">send</button>
+      <span v-for="message in messages">
+        {{ message }}
+      </span>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
 
 export default {
-  components: {
-    Logo
+  data: function () {
+    return {
+      input: "",
+      messages: []
+    }
   },
   mounted: function () {
-    // var HOST = location.origin.replace(/^http/, 'ws') + /ws/
-    // var ws = new WebSocket(HOST)
-
-    this.$socket.onmessage = function (event) {
-      console.log('Server time: ' + event.data)
-    };
-
+    this.$socket.onmessage = (event) => {
+      this.messages.push(event.data)
+    }
   },
   methods: {
     send: function () {
-      this.$socket.send('loaded')
-      // console.log(this)
-      // console.log(this.$socket)
-
+      this.$socket.send(this.input)
     }
   }
 }
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
+  span {
+    display: block;
+  }
 </style>

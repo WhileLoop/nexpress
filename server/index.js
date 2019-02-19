@@ -4,18 +4,12 @@ const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 
 const app = express()
+var appWs = expressWs(app);
 
-
-var ws = expressWs(app);
-
-
-
-// Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
 
 async function start() {
-  // Init Nuxt.js
   const nuxt = new Nuxt(config)
 
   const {
@@ -23,7 +17,6 @@ async function start() {
     port = process.env.PORT || 3000
   } = nuxt.options.server
 
-  // Build only in dev mode
   if (config.dev) {
     const builder = new Builder(nuxt)
     await builder.build()
@@ -31,7 +24,9 @@ async function start() {
 
   app.ws('/ws/', function(ws, req) {
     ws.on('message', function(msg) {
-      console.log(msg)
+      appWs.getWss().clients.forEach((client) => {
+        client.send(msg);
+      });
     });
   });
 
@@ -39,25 +34,14 @@ async function start() {
     res.send('API root')
   })
 
-  // Give nuxt middleware to express
   app.use('_nuxt', nuxt.render)
   app.use('/', nuxt.render)
 
-  // const wss = new SocketServer.Server({ app });
-
-  // wss.on('connection', (ws) => {
-  //   console.log('Client connected');
-  //   ws.on('close', () => console.log('Client disconnected'));
-  // });
-
-
-
-  setInterval(() => {
-    ws.getWss().clients.forEach((client) => {
-      client.send(new Date().toTimeString());
-    });
-  }, 1000);
-
+  // setInterval(() => {
+  //   ws.getWss().clients.forEach((client) => {
+  //     client.send(new Date().toTimeString());
+  //   });
+  // }, 1000);
 
   // Listen the app
   app.listen(port, host)
@@ -67,9 +51,4 @@ async function start() {
   })
 }
 
-
-
-
-
 start()
-
