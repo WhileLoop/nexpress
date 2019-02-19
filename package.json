@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "node server/index.js",
     "build": "nuxt build",
-    "start": "nuxt build && NODE_ENV=production node server/index.js",
-    "generate": "nuxt generate"
+    "start": "NODE_ENV=production node server/index.js",
+    "generate": "nuxt generate",
+    "heroku-postbuild": "nuxt build"
   },
   "dependencies": {
     "nuxt": "^2.4.0",
