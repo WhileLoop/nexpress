@@ -34,6 +34,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    {src: '~plugins/socket.js', ssr: false}
   ],
 
   /*
@@ -50,7 +51,7 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     }
   }
 }

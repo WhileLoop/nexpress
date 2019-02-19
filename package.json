@@ -4,6 +4,9 @@
   "description": "My superb Nuxt.js project",
   "author": "Argishti Rostamian",
   "private": true,
+  "engines": {
+    "node": "11.9.0"
+  },
   "scripts": {
     "dev": "node server/index.js",
     "build": "nuxt build",
@@ -12,7 +15,13 @@
     "heroku-postbuild": "nuxt build"
   },
   "dependencies": {
+    "bufferutil": "4.0.1",
+    "express": "^4.16.4",
+    "express-ws": "^4.0.0",
     "nuxt": "^2.4.0",
-    "express": "^4.16.4"
+    "redis": "^2.8.0",
+    "utf-8-validate": "5.0.2",
+    "vue-native-websocket": "^2.0.12",
+    "ws": "6.1.4"
   }
 }

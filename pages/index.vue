@@ -20,6 +20,7 @@
           class="button--grey"
         >GitHub</a>
       </div>
+      <button v-on:click="send">send</button>
     </div>
   </section>
 </template>
@@ -27,9 +28,28 @@
 <script>
 import Logo from '~/components/Logo.vue'
 
+// https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
+
 export default {
   components: {
     Logo
+  },
+  mounted: function () {
+    // var HOST = location.origin.replace(/^http/, 'ws') + /ws/
+    // var ws = new WebSocket(HOST)
+
+    this.$socket.onmessage = function (event) {
+      console.log('Server time: ' + event.data)
+    };
+
+  },
+  methods: {
+    send: function () {
+      this.$socket.send('loaded')
+      // console.log(this)
+      // console.log(this.$socket)
+
+    }
   }
 }
 </script>

@@ -1,7 +1,14 @@
 const express = require('express')
+const expressWs = require('express-ws')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
+
 const app = express()
+
+
+var ws = expressWs(app);
+
+
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
@@ -22,14 +29,47 @@ async function start() {
     await builder.build()
   }
 
-  // Give nuxt middleware to express
-  app.use(nuxt.render)
+  app.ws('/ws/', function(ws, req) {
+    ws.on('message', function(msg) {
+      console.log(msg)
+    });
+  });
 
-  // Listen the server
+  app.get('/api/', (req, res, next) => {
+    res.send('API root')
+  })
+
+  // Give nuxt middleware to express
+  app.use('_nuxt', nuxt.render)
+  app.use('/', nuxt.render)
+
+  // const wss = new SocketServer.Server({ app });
+
+  // wss.on('connection', (ws) => {
+  //   console.log('Client connected');
+  //   ws.on('close', () => console.log('Client disconnected'));
+  // });
+
+
+
+  setInterval(() => {
+    ws.getWss().clients.forEach((client) => {
+      client.send(new Date().toTimeString());
+    });
+  }, 1000);
+
+
+  // Listen the app
   app.listen(port, host)
   consola.ready({
     message: `Server listening on http://${host}:${port}`,
     badge: true
   })
 }
+
+
+
+
+
 start()
+
