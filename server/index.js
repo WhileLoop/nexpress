@@ -37,12 +37,6 @@ async function start() {
   app.use('_nuxt', nuxt.render)
   app.use('/', nuxt.render)
 
-  // setInterval(() => {
-  //   ws.getWss().clients.forEach((client) => {
-  //     client.send(new Date().toTimeString());
-  //   });
-  // }, 1000);
-
   // Listen the app
   app.listen(port, host)
   consola.ready({
