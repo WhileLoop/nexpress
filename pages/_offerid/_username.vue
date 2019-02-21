@@ -23,7 +23,7 @@ export default {
     }
   },
   mounted: function () {
-    this.socket = new WebSocket('ws://localhost:3000/ws/')
+    this.socket = new WebSocket('ws://localhost:3000/ws/' + this.$route.params.offerid)
     this.$cookies.set("SOCKET", "TESTVAL")
     this.socket.onmessage = (event) => {
       this.messages.push(event.data)

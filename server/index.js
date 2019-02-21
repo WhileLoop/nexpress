@@ -25,7 +25,8 @@ async function start() {
     await builder.build()
   }
 
-  app.ws('/ws/', function(ws, req) {
+  app.ws('/ws/:offerId', function(ws, req) {
+      console.log(req.params.offerId)
       console.log(req.headers.cookie);
     ws.on('message', function(msg) {
       // offerid,username,msg
