@@ -30,29 +30,33 @@ async function start() {
   }
 
   app.ws('/ws/:offerId', function(ws, req) {
-
+    try {
       if (roomMap[req.params.offerId] == null) {
         console.log('creating room');
         console.log(req.params.offerId)
         roomMap[req.params.offerId] = []
       }
-
       roomMap[req.params.offerId].push(ws)
       console.log('adding client to room');
       console.log(req.params.offerId)
+      ws.on('message', function(msg) {
+        console.log('broadcasting to room');
+        console.log(req.params.offerId)
+        for (var i = 0; i < roomMap[req.params.offerId].length; i++) {
 
 
-    ws.on('message', function(msg) {
+          try {
+            roomMap[req.params.offerId][i].send(msg)
+          } catch(e) {
+            console.log(e)
+          }
+        }
+      });
 
-      console.log('broadcasting to room');
-      console.log(req.params.offerId)
 
-      for (var i = 0; i < roomMap[req.params.offerId].length; i++) {
-          roomMap[req.params.offerId][i].send(msg)
-      }
-
-
-    });
+    } catch(e) {
+      console.log(e)
+    }
   });
 
   app.get('/api/', (req, res, next) => {

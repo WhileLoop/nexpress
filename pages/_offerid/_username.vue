@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     send: function () {
-      this.socket.send([this.$route.params.offerid, this.$route.params.username, this.input])
+      this.socket.send(this.input)
     }
   }
 }
