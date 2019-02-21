@@ -26,6 +26,14 @@ async function start() {
   }
 
   app.ws('/ws/', function(ws, req) {
+
+    console.log(req.headers['sec-websocket-key'])
+
+    appWs.getWss().on('connection', function(ws) {
+      console.log('connection open');
+    });
+
+
     ws.on('message', function(msg) {
       // offerid,username,msg
       msg_stuff = msg.split(',');
