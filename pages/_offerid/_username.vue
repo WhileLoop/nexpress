@@ -18,17 +18,22 @@ export default {
   data: function () {
     return {
       input: "",
-      messages: []
+      messages: [],
+      socket: null
     }
   },
   mounted: function () {
-    this.$socket.onmessage = (event) => {
+    this.socket = new WebSocket('ws://localhost:3000/ws/')
+    console.log(this.socket)
+
+
+    this.socket.onmessage = (event) => {
       this.messages.push(event.data)
     }
   },
   methods: {
     send: function () {
-      this.$socket.send([this.$route.params.offerid, this.$route.params.username, this.input])
+      this.socket.send([this.$route.params.offerid, this.$route.params.username, this.input])
     }
   }
 }
