@@ -19,7 +19,7 @@
     "express": "^4.16.4",
     "express-ws": "^4.0.0",
     "nuxt": "^2.4.0",
-    "redis": "^2.8.0",
+    "ioredis": "^4.6.3",
     "utf-8-validate": "5.0.2",
     "vue-native-websocket": "^2.0.12",
     "ws": "6.1.4"

@@ -10,6 +10,7 @@ services:
     command: /bin/bash -c 'npm install && npm run dev'
     environment:
       HOST: "0.0.0.0"
+      REDIS_URL: "redis://redis"
   postgres:
     image: postgres:10
     ports:
