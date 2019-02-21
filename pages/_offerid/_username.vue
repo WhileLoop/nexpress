@@ -20,9 +20,9 @@ export default {
     };
   },
   mounted: function() {
-    this.socket = new WebSocket(
-      "ws://nexpress.herokuapp.com/ws/" + this.$route.params.offerid
-    );
+    var new_url = "ws://nexpress.herokuapp.com/ws/" + this.$route.params.offerid + "/" + this.$route.params.username;
+    // var new_url = "ws://localhost:3000/ws/" + this.$route.params.offerid + "/" + this.$route.params.username;
+    this.socket = new WebSocket(new_url);
     this.$cookies.set("SOCKET", "TESTVAL");
     this.socket.onmessage = event => {
       this.messages.push(event.data);
@@ -52,7 +52,7 @@ button {
   font-size: 16px;
 }
 input {
-  width: 100%;
+  width: 80%;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;

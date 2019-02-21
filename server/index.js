@@ -29,7 +29,7 @@ async function start() {
     await builder.build()
   }
 
-  app.ws('/ws/:offerId', function(ws, req) {
+  app.ws('/ws/:offerId/:username', function(ws, req) {
     try {
       if (roomMap[req.params.offerId] == null) {
         console.log('creating room');
@@ -43,10 +43,8 @@ async function start() {
         console.log('broadcasting to room');
         console.log(req.params.offerId)
         for (var i = 0; i < roomMap[req.params.offerId].length; i++) {
-
-
           try {
-            roomMap[req.params.offerId][i].send(msg)
+            roomMap[req.params.offerId][i].send(req.params.username + " : " + msg)
           } catch(e) {
             console.log(e)
           }
