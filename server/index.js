@@ -25,7 +25,9 @@ async function start() {
     await builder.build()
   }
 
-  app.ws('/ws/', function(ws, req) {
+  app.ws('/ws/:id', function(ws, req) {
+    console.log("***")
+    console.log(req.params.id)
 
     console.log(req.headers['sec-websocket-key'])
 

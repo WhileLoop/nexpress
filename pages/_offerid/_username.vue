@@ -23,7 +23,7 @@ export default {
     }
   },
   mounted: function () {
-    this.socket = new WebSocket('ws://localhost:3000/ws/')
+    this.socket = new WebSocket('ws://localhost:3000/ws/123')
     console.log(this.socket)
 
 
