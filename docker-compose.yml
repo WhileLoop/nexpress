@@ -11,13 +11,6 @@ services:
     environment:
       HOST: "0.0.0.0"
       REDIS_URL: "redis://redis"
-  postgres:
-    image: postgres:10
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
   redis:
     image: redis:5
     ports:
