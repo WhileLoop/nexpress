@@ -12,6 +12,10 @@ var redis = new Redis(process.env.REDIS_URL)
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
 
+
+var roomMap = {};
+
+
 async function start() {
   const nuxt = new Nuxt(config)
 
@@ -26,19 +30,28 @@ async function start() {
   }
 
   app.ws('/ws/:offerId', function(ws, req) {
+
+      if (roomMap[req.params.offerId] == null) {
+        console.log('creating room');
+        console.log(req.params.offerId)
+        roomMap[req.params.offerId] = []
+      }
+
+      roomMap[req.params.offerId].push(ws)
+      console.log('adding client to room');
       console.log(req.params.offerId)
-      console.log(req.headers.cookie);
+
+
     ws.on('message', function(msg) {
-      // offerid,username,msg
-      msg_stuff = msg.split(',');
-      new_msg = msg_stuff[1] + " : " + msg_stuff[2];
-      redis.rpush(msg_stuff[0], new_msg);
-      redis.sadd(msg_stuff[0]+"_users", msg_stuff[1]);
-      appWs.getWss().clients.forEach((client) => {
-        if (redis.sismember(msg_stuff[0]+"_users", msg_stuff[1])) {
-          client.send(new_msg);
-        }
-      });
+
+      console.log('broadcasting to room');
+      console.log(req.params.offerId)
+
+      for (var i = 0; i < roomMap[req.params.offerId].length; i++) {
+          roomMap[req.params.offerId][i].send(msg)
+      }
+
+
     });
   });
 
