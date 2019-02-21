@@ -22,6 +22,7 @@ export default {
     }
   },
   mounted: function () {
+    this.$cookies.set("SOCKET", "TESTVAL")
     this.$socket.onmessage = (event) => {
       this.messages.push(event.data)
     }

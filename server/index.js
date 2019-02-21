@@ -26,6 +26,7 @@ async function start() {
   }
 
   app.ws('/ws/', function(ws, req) {
+      console.log(req.headers.cookie);
     ws.on('message', function(msg) {
       // offerid,username,msg
       msg_stuff = msg.split(',');
