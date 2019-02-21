@@ -34,7 +34,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    {src: '~plugins/socket.js', ssr: false},
+    // {src: '~plugins/socket.js', ssr: false},
     {src: '~plugins/cookies.js', ssr: false}
   ],
 
